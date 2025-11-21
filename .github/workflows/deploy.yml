@@ -1,31 +1,34 @@
-name: Vite Build Only
+name: Build and Deploy Vite to GitHub Pages
 
 on:
   push:
     branches:
-      - main   # run on pushes to main branch
-  pull_request:
-    branches:
-      - main
+      - main  # deploy when main branch is updated
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
+      # 1. Get the repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2. Set up Node
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 22  # use Node 22 for latest Vite
+          node-version: 22  # Vite-friendly
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      - name: Run Vite build
+      # 4. Build Vite project
+      - name: Build
         run: npm run build
 
-      - name: List dist folder
-        run: ls -R dist
+      # 5. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        with:
+          folder: dist
