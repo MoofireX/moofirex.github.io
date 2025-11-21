@@ -13,7 +13,6 @@ jobs:
       id-token: write
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
